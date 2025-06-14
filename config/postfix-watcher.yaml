@@ -1,0 +1,13 @@
+---
+default:
+  endpoint: "https://api.example.com/default"
+  delete-message: false
+
+rules:
+  - name: "Server blocked"
+    pattern: "due to IP address restrictions"
+    endpoint: "https://api.example.com/bounce"
+
+  - name: "Mailbox full"
+    pattern: "mailbox full"
+    delete-message: true

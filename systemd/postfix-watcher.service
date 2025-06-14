@@ -1,0 +1,11 @@
+[Unit]
+Description=Postfix Mail Watcher
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/postfix-watcher --config /etc/postfix-watcher.yaml
+Restart=on-failure
+User=postfixwatcher
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "postfix-watcher"
+version = "0.1.0"
+description = "Postfix log watcher with regex rule-based triggers"
+authors = [
+    { name="Luke Briner", email="lukiebriner@gmail.com" }
+]
+license = { text = "GPL-3.0-or-later" }
+dependencies = [
+    "watchdog",
+    "pyyaml",
+    "requests"
+]
+readme = "README.md"
+requires-python = ">=3.7"
+
+[project.scripts]
+postfix-watcher = "postfix_watcher.watcher:start_watcher"

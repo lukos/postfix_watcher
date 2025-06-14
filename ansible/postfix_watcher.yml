@@ -1,0 +1,19 @@
+- name: Install postfix-watcher
+  pip:
+    name: postfix-watcher
+
+- name: Copy config
+  copy:
+    src: ../config/postfix-watcher.yaml
+    dest: /etc/postfix-watcher.yaml
+
+- name: Install systemd service
+  copy:
+    src: ../systemd/postfix-watcher.service
+    dest: /etc/systemd/system/postfix-watcher.service
+
+- name: Enable and start service
+  systemd:
+    name: postfix-watcher
+    enabled: yes
+    state: started
