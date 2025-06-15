@@ -6,14 +6,16 @@ A lightweight Python daemon to monitor Postfix mail logs and trigger API and Pos
 
 ## Install
 ```sh
+# Download the latest installer tarball from [Github](https://github.com/lukos/postfix_watcher/releases)
 sudo useradd --system postfixwatcher
 sudo usermod -aG adm postfixwatcher
-pip install .
 
-sudo cp ./systemd/postfix-watcher.service /etc/systemd/system/
+tar -xzf postfix-watcher-v0.1.0-linux-x64.tar.gz
+sudo cp bin/postfix-watcher /usr/local/bin/
+sudo cp config/postfix-watcher.yaml /etc/
+sudo cp systemd/postfix-watcher.service /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable postfix-watcher
-sudo systemctl start postfix-watcher
+sudo systemctl enable --now postfix-watcher
 ```
 
 ## Run

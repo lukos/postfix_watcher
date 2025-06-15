@@ -1,0 +1,49 @@
+name: Build and Release Tarball
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install .
+
+      - name: Prepare tarball directory
+        run: |
+          mkdir -p dist/postfix-watcher/bin
+          mkdir -p dist/postfix-watcher/config
+          mkdir -p dist/postfix-watcher/systemd
+
+          cp systemd/postfix-watcher.service dist/postfix-watcher/systemd/
+          cp config/postfix-watcher.yaml dist/postfix-watcher/config/
+          cp LICENSE dist/postfix-watcher/
+
+          # Use entry point as script (simulate install)
+          echo "#!/bin/bash" > dist/postfix-watcher/bin/postfix-watcher
+          echo "exec python3 -m postfix_watcher.watcher \"\$@\"" >> dist/postfix-watcher/bin/postfix-watcher
+          chmod +x dist/postfix-watcher/bin/postfix-watcher
+
+      - name: Create tarball
+        run: |
+          cd dist
+          tar -czf postfix-watcher-${{ github.ref_name }}-linux-x64.tar.gz postfix-watcher
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/postfix-watcher-${{ github.ref_name }}-linux-x64.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

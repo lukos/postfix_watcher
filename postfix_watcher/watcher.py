@@ -5,6 +5,8 @@ import os
 import json
 from .rules import apply_rules
 from .config import load_config
+import logging
+from logging.handlers import SysLogHandler
 
 class MailLogHandler(FileSystemEventHandler):
     def __init__(self, config, mail_file, state_file="/var/lib/postfix-watcher/state.json"):
@@ -69,6 +71,8 @@ def start_watcher():
     parser.add_argument("--config", required=True)
     parser.add_argument("--mail-file", default="/var/log/mail.log", help="Path to the mail log file to watch")
     args = parser.parse_args()
+
+    logger = setup_logging()
 
     config = load_config(args.config)
     observer = Observer()
