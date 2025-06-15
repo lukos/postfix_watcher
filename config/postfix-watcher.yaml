@@ -2,6 +2,7 @@
 default:
   endpoint: "https://api.example.com/default"
   delete-message: false
+  messageid-pattern: "([A-Z0-9]{12})"
 
 rules:
   - name: "Server blocked"
