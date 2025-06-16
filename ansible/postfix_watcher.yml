@@ -4,8 +4,14 @@
 
 - name: Copy config
   copy:
-    src: ../config/postfix-watcher.yaml
+    src: ../config/postfix-watcher.yaml.dist
     dest: /etc/postfix-watcher.yaml
+
+- name: Add variable to /etc/environment
+  lineinfile:
+    path: /etc/environment
+    line: "SS_FQDN={{ hname }}"
+    create: yes
 
 - name: Install systemd service
   copy:

@@ -36,7 +36,7 @@ jobs:
           mkdir -p dist/postfix-watcher/systemd
 
           cp systemd/postfix-watcher.service dist/postfix-watcher/systemd/
-          cp config/postfix-watcher.yaml dist/postfix-watcher/config/
+          cp config/postfix-watcher.yaml.dist dist/postfix-watcher/config/
           cp LICENSE dist/postfix-watcher/
 
           # Use entry point as script (simulate install)

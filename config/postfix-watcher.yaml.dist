@@ -1,12 +1,16 @@
 ---
 default:
   endpoint: "https://api.example.com/default"
+  endpoint_username: "my_username"
+  endpoint_password: "the_password"
+  endpoint_message: '{"Hostname":"${SS_FQDN}","Status":true}'
   delete-message: false
-  messageid-pattern: "([A-Z0-9]{12})"
+  messageid-pattern: ": ([A-Z0-9]{10}):"
+  
 
 rules:
   - name: "Server blocked"
-    pattern: "due to IP address restrictions"
+    pattern: "temporarily rate limited due to IP reputation"
     endpoint: "https://api.example.com/bounce"
 
   - name: "Mailbox full"
