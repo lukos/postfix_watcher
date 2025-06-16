@@ -25,7 +25,7 @@ def apply_rules(line, config):
 
                 message_id = match.group(1)
                 try:
-                    subprocess.run(['postsuper', '-d', message_id], check=True)
+                    subprocess.run(['sudo', 'postsuper', '-d', message_id], check=True)
                     logger.info(f"Deleted message {message_id} via postsuper")
                 except subprocess.CalledProcessError as e:
                     logger.error(f"Failed to delete message {message_id}: {e}")
