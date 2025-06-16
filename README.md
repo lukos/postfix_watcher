@@ -34,7 +34,7 @@ The default location for configuration is `/etc/postfix-watcher.yaml` if you cha
 This yaml file has some defaults that you can modify but the general idea is that all settings in the default section can be overridden inside each individual rule except rule name and pattern.
 
 Auth can be set either with `endpoint_token` to use bearer token auth (you don't need to include "Bearer") or otherwise you can set `endpoint_username` and `endpoint_password` to use basic auth. If
-you set both, it will pass both so be careful if that will present a problem.
+you set both the token and the username/password, it will pass both so be careful since that is likely to cause a problem.
 
 The `endpoint_message` is the json passed to the API endpoint. You can use environment variable embedding just like bash e.g. `${MY_VAR}` and if the variable is not defined, you will simply get an empty
 string in that location. 
