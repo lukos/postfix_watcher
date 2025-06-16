@@ -11,6 +11,9 @@ Download the latest installer tarball from [Github](https://github.com/lukos/pos
 sudo useradd --system postfixwatcher
 sudo usermod -aG adm postfixwatcher
 
+sudo mkdir -p /var/lib/postfix-watcher
+sudo chown postfixwatcher:postfixwatcher /var/lib/postfix-watcher
+
 tar -xzf postfix-watcher-v0.1.3-linux-x64.tar.gz
 sudo cp bin/postfix-watcher /usr/local/bin/
 # Optional depending on whether you already have a config file

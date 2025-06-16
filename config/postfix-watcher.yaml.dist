@@ -15,5 +15,5 @@ rules:
     endpoint: "https://api.example.com/bounce"
 
   - name: "Mailbox full"
-    pattern: "mailbox full"
+    pattern: "The recipient's inbox is out of storage space"
     delete-message: true

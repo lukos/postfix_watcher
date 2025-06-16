@@ -68,11 +68,9 @@ class MailLogHandler(FileSystemEventHandler):
 def start_watcher():
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", required=True)
+    parser.add_argument("--config", default="/etc/postfix-watcher.yaml")
     parser.add_argument("--mail-file", default="/var/log/mail.log", help="Path to the mail log file to watch")
     args = parser.parse_args()
-
-    logger = setup_logging()
 
     config = load_config(args.config)
     observer = Observer()
@@ -85,3 +83,6 @@ def start_watcher():
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
+
+if __name__ == "__main__":
+    start_watcher()

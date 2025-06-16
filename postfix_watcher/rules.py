@@ -10,9 +10,9 @@ def apply_rules(line, config):
     for rule in config['rules']:
         if re.search(rule['pattern'], line):
             endpoint = rule.get('endpoint', config['default']['endpoint'])
-            username = rule.get('endpoint_username', config['default']['endpoint_username'])
-            password = rule.get('endpoint_password', config['default']['endpoint_password'])
-            token = rule.get('endpoint_token', config['default']['endpoint_token'])
+            username = rule.get('endpoint_username') or config.get('default', {}).get('endpoint_username')
+            password = rule.get('endpoint_password') or config.get('default', {}).get('endpoint_password')
+            token = rule.get('endpoint_token') or config.get('default', {}).get('endpoint_token')
             template = Template(rule.get('endpoint_message', config['default']['endpoint_message']))
             message = template.safe_substitute(os.environ)
 

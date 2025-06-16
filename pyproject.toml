@@ -9,7 +9,7 @@ description = "Postfix log watcher with regex rule-based triggers"
 authors = [
     { name="Luke Briner", email="lukiebriner@gmail.com" }
 ]
-license = "GPL-3.0-or-later"
+license = { file = "LICENSE"}
 dependencies = [
     "watchdog",
     "pyyaml",
@@ -21,5 +21,5 @@ requires-python = ">=3.7"
 [project.scripts]
 postfix-watcher = "postfix_watcher.watcher:start_watcher"
 
-[tool.setuptools.packages.find]
-where = ["postfix_watcher"]
+[tool.setuptools]
+packages = ["postfix_watcher"]
