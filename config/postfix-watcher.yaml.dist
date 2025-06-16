@@ -3,6 +3,7 @@ default:
   endpoint: "https://api.example.com/default"
   endpoint_username: "my_username"
   endpoint_password: "the_password"
+  endpoint_token: "bearer_token_value"
   endpoint_message: '{"Hostname":"${SS_FQDN}","Status":true}'
   delete-message: false
   messageid-pattern: ": ([A-Z0-9]{10}):"

@@ -2,12 +2,14 @@ import requests
 from .logging import get_logger
 logger = get_logger()
 
-def send_notification(endpoint, message, username, password):
+def send_notification(endpoint, message, username, password, token):
     try:
         auth = (username, password) if username and password else None
+        headers = {"Authorization": f"Bearer {token}"} if token else {}
         response = requests.post(endpoint, 
                       json=message,
-                      auth=auth)
+                      auth=auth,
+                      headers=headers)
         response.raise_for_status()
     except Exception as e:
         logger.error("Failed to call API endpoint: {e}", exc_info=True)
