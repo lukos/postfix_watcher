@@ -1,11 +1,14 @@
 [Unit]
-Description=Postfix Mail Watcher
+Description=Postfix Watcher Service
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/postfix-watcher --config /etc/postfix-watcher.yaml
-Restart=on-failure
+Type=simple
 User=postfixwatcher
+WorkingDirectory=/var/lib/postfix-watcher
+ExecStart=/opt/postfix-watcher/venv/bin/postfix-watcher --config /etc/postfix-watcher.yaml
+Restart=on-failure
+Environment=PYTHONUNBUFFERED=1
 
 [Install]
 WantedBy=multi-user.target
