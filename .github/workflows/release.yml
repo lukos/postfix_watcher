@@ -35,17 +35,18 @@ jobs:
           mkdir -p dist/postfix-watcher/config
           mkdir -p dist/postfix-watcher/systemd
 
+          cp pyproject.toml dist/postfix-watcher/                    
+          cp README.md dist/postfix-watcher/ || true                 
+          cp LICENSE dist/postfix-watcher/
+          cp -r postfix_watcher dist/postfix-watcher/                
           cp systemd/postfix-watcher.service dist/postfix-watcher/systemd/
           cp config/postfix-watcher.yaml.dist dist/postfix-watcher/config/
-          cp LICENSE dist/postfix-watcher/
 
-          # Use entry point as script (simulate install)
+          # Create wrapper script
           echo "#!/bin/bash" > dist/postfix-watcher/bin/postfix-watcher
           echo "exec python3 -m postfix_watcher.watcher \"\$@\"" >> dist/postfix-watcher/bin/postfix-watcher
           chmod +x dist/postfix-watcher/bin/postfix-watcher
 
-      - name: Copy source code
-        run: cp -r postfix_watcher dist/postfix-watcher/
 
       - name: Create tarball
         run: |
