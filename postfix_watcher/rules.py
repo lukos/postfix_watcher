@@ -5,6 +5,7 @@ from .logging import get_logger
 logger = get_logger()
 import os
 from string import Template
+import json
 
 def apply_rules(line, config):
     for rule in config['rules']:
@@ -14,7 +15,12 @@ def apply_rules(line, config):
             password = rule.get('endpoint_password') or config.get('default', {}).get('endpoint_password')
             token = rule.get('endpoint_token') or config.get('default', {}).get('endpoint_token')
             template = Template(rule.get('endpoint_message', config['default']['endpoint_message']))
-            message = template.safe_substitute(os.environ)
+            message_str = template.safe_substitute(os.environ)
+            try:
+                message = json.loads(message_str)
+            except json.JSONDecodeError as e:
+                logger.error(f"Invalid JSON in endpoint_message template: {message_str}", exc_info=True)
+                raise
 
             send_notification(endpoint, message, username, password, token)
             if rule.get('delete-message', config.get('default', {}).get('delete-message', False)):
