@@ -53,6 +53,7 @@ class MailLogHandler(FileSystemEventHandler):
                     self._file_pos = 0
                     self._inode = current_inode
 
+
                 with open(self.mail_file, 'rb') as f:
                     f.seek(self._file_pos)
                     for raw_line in f:
