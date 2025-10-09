@@ -53,13 +53,15 @@ class MailLogHandler(FileSystemEventHandler):
                     self._file_pos = 0
                     self._inode = current_inode
 
-                with open(self.mail_file, 'r') as f:
+                with open(self.mail_file, 'rb') as f:
                     f.seek(self._file_pos)
-                    new_lines = f.readlines()
+                    for raw_line in f:
+                        # Prefer utf-8 but don't crash on bad bytes
+                        # 'surrogateescape' preserves the original byte values losslessly
+                        line = raw_line.decode('utf-8', errors='surrogateescape')
+                        apply_rules(line, self.config)
+
                     self._file_pos = f.tell()
-                
-                for line in new_lines:
-                    apply_rules(line, self.config)
 
                 self._save_state()
             except Exception as e:
