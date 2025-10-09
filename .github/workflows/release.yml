@@ -47,7 +47,6 @@ jobs:
           echo "exec python3 -m postfix_watcher.watcher \"\$@\"" >> dist/postfix-watcher/bin/postfix-watcher
           chmod +x dist/postfix-watcher/bin/postfix-watcher
 
-
       - name: Create tarball
         run: |
           cd dist
