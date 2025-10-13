@@ -6,7 +6,7 @@ default:
   endpoint_token: "bearer_token_value"
   endpoint_message: '{"Hostname":"${SS_FQDN}","Status":true}'
   delete-message: false
-  messageid-pattern: ": ([A-Z0-9]{10}):"
+  messageid-pattern: ": ([A-Za-z0-9]{10,12}):"
   
 
 rules:

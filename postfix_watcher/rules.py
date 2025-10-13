@@ -10,6 +10,7 @@ import json
 def apply_rules(line, config):
     for rule in config['rules']:
         if re.search(rule['pattern'], line):
+            logger.info("Matched rule '%s'", rule['name'])
             endpoint = rule.get('endpoint', config['default']['endpoint'])
             username = rule.get('endpoint_username') or config.get('default', {}).get('endpoint_username')
             password = rule.get('endpoint_password') or config.get('default', {}).get('endpoint_password')
@@ -35,3 +36,5 @@ def apply_rules(line, config):
                     logger.info(f"Deleted message {message_id} via postsuper")
                 except subprocess.CalledProcessError as e:
                     logger.error(f"Failed to delete message {message_id}: {e}")
+        else:
+            logger.info("No matched rule for %s", line[:60])    # Don't log entire line which will be really long
