@@ -3,6 +3,7 @@ from .logging import get_logger
 logger = get_logger()
 
 def send_notification(endpoint, message, username, password, token):
+    logger.info(f"Calling API to handle rule trigger")
     try:
         auth = (username, password) if username and password else None
         headers = {"Authorization": f"Bearer {token}"} if token else {}
