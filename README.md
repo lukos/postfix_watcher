@@ -21,7 +21,8 @@ sudo chown postfixwatcher:postfixwatcher /var/lib/postfix-watcher
 tar -xzf postfix-watcher-v0.1.4-linux-x64.tar.gz
 sudo cp bin/postfix-watcher /usr/local/bin/
 # Optional depending on whether you already have a config file
-sudo cp config/postfix-watcher.yaml.dist /etc/postfix-watcher.yaml
+sudo mkdir /etc/postfix-watcher.d
+sudo cp config/postfix-watcher.yaml.dist /etc/postfix-watcher.d/00-postfix-watcher.yaml
 
 sudo cp systemd/postfix-watcher.service /etc/systemd/system/
 sudo systemctl daemon-reload
@@ -29,7 +30,7 @@ sudo systemctl enable --now postfix-watcher
 ```
 
 ## Configure
-The default location for configuration is `/etc/postfix-watcher.yaml` if you change this, you need to pass the new path to the executable using `--config` and change the service unit file to suit.
+The default location for configuration is `/etc/postfix-watcher.d/` and follows the usual rules of applying the rule files in alphabetical order. If you change this location, you need to pass the new path to the executable using `--config-dir` and/or change the service unit file to suit. Dictionaries are deep-merged, lists are concatenated and scalars are overwritten by later files.
 
 This yaml file has some defaults that you can modify but the general idea is that all settings in the default section can be overridden inside each individual rule except rule name and pattern.
 

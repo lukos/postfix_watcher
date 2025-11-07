@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=postfixwatcher
 WorkingDirectory=/var/lib/postfix-watcher
-ExecStart=/opt/postfix-watcher/venv/bin/postfix-watcher --config /etc/postfix-watcher.yaml
+ExecStart=/opt/postfix-watcher/venv/bin/postfix-watcher --config-dir /etc/postfix-watcher.d
 Restart=on-failure
 EnvironmentFile=/etc/postfix-watcher.env
 
