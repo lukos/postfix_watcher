@@ -9,7 +9,8 @@ import json
 
 def apply_rules(line, config):
     for rule in config['rules']:
-        if re.search(rule['pattern'], line):
+        match = re.search(rule['pattern'], line)
+        if match:
             logger.info("Matched rule '%s'", rule['name'])
             endpoint = rule.get('endpoint', config['default']['endpoint'])
             username = rule.get('endpoint_username') or config.get('default', {}).get('endpoint_username')

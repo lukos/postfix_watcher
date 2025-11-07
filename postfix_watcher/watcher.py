@@ -1,5 +1,6 @@
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+import signal
 import time
 import os
 import json
@@ -71,11 +72,26 @@ class MailLogHandler(FileSystemEventHandler):
 def start_watcher():
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", default="/etc/postfix-watcher.yaml")
+    parser.add_argument("--config-dir", default="/etc/postfix-watcher.d",
+                        help="Directory of YAML snippets to merge (*.yml|*.yaml)")
     parser.add_argument("--mail-file", default="/var/log/mail.log", help="Path to the mail log file to watch")
     args = parser.parse_args()
 
-    config = load_config(args.config)
+    from .config import load_config_dir
+    config = load_config_dir(dir_path=args.config_dir)
+
+    config_ref = {"cfg": config}
+
+    def _reload(sig, frame):
+        try:
+            config_ref["cfg"] = load_config_dir(args.config_dir)
+            handler.config = config_ref["cfg"]
+            logging.getLogger(__name__).info("Reloaded configuration")
+        except Exception as e:
+            logging.getLogger(__name__).exception("Failed to reload config: %s", e)
+
+    signal.signal(signal.SIGHUP, _reload)
+
     observer = Observer()
     handler = MailLogHandler(config, args.mail_file)
     observer.schedule(handler, path=args.mail_file.rsplit("/", 1)[0], recursive=False)
