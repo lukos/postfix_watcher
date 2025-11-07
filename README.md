@@ -40,9 +40,9 @@ you set both the token and the username/password, it will pass both so be carefu
 The `endpoint_message` is the json passed to the API endpoint. You can use environment variable embedding just like bash e.g. `${MY_VAR}` and if the variable is not defined, you will simply get an empty
 string in that location. 
 
-The rule names are just for ease-of-use and might be added to some of the logging messages over time but their exact value is not important.
+The rule names are just for ease-of-use and are added to some of the logging messages but their exact value is not important.
 
-Patterns for each rule are Python regexes but since they are regexes, they can also just use normal text as long as you escape any special regex chars (. ^ $ * + ? { } [ ] \ | ( )) with a backslash.
+Patterns for each rule are Python regexes but since they are regexes, they can also just use normal text as long as you escape any special regex chars `. ^ $ * + ? { } [ ] \ | ( )` with a backslash. If you want capture any data from the log line to use in the `endpoint_message` you can use Python named capture groups e.g. `pattern: "to=<(?P<to_email>[^>]+)> The recipient's inbox is out of storage space"` which will allow you to use `${to_email}` in the endpoint message.
 
 
 ## Run
