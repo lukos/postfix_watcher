@@ -19,12 +19,14 @@ def _compile_flags(flag_names):
     return flags
 
 def apply_rules(line, config):
+    matched_any = False
     for rule in config['rules']:
         flags = _compile_flags(rule.get('flags'))
         m = re.search(rule['pattern'], line, flags)
         if not m:
             continue
 
+        matched_any = True
         logger.info("Matched rule '%s'", rule['name'])
 
         endpoint = rule.get('endpoint', config['default']['endpoint'])
@@ -66,5 +68,5 @@ def apply_rules(line, config):
                 logger.info(f"Deleted message {message_id} via postsuper")
             except subprocess.CalledProcessError as e:
                 logger.error(f"Failed to delete message {message_id}: {e}")
-        else:
-            logger.info("No matched rule for %s", line[:60])    # Don't log entire line which will be really long
+    if not matched_any:
+        logger.info("No matched rule for %s", line[:60])    # Don't log entire line which will be really long
